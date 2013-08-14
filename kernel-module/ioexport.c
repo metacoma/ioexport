@@ -282,6 +282,7 @@ static int __init ioexport_start(void)
 		return -1;
 	} 
 
+	/*
 	proc_io =  create_proc_entry(PROC_NAME, 0644, NULL);
 	
 	if (proc_io == NULL) {
@@ -289,7 +290,6 @@ static int __init ioexport_start(void)
 		return -ENOMEM;
 	} 
 
-	/*
 	proc_io->read_proc = proc_io_read;
 
 
