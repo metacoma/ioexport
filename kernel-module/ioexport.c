@@ -172,13 +172,6 @@ asmlinkage long new_sys_read(unsigned int fd, char __user *buf, size_t count)
 
 	ret = ref_sys_read(fd, buf, count);
 
-	/*
-	if ( comm && (strncmp(comm, "bash", sizeof("bash") - 1) || strncmp(comm, "ssh", 3))) {
-		if (strncmp(comm, "tail", 4) && strncmp(comm, "sshd", 4) && strncmp(comm, "rsyslogd", sizeof "rsyslogd" - 1)) 
-			printk("ioexport skip %s\n", comm);
-		return ret;
-	} 
-	*/
 
 #define STRSZ(a)  ((a)), sizeof((a)) - 1
 
@@ -191,13 +184,8 @@ asmlinkage long new_sys_read(unsigned int fd, char __user *buf, size_t count)
 				printk("ioexport skip %s\n", comm);
 			return ret;
 		} 
-	} 
-
-	/*
-	if ( comm && strncmp(comm, "bash", sizeof("bash") - 1)) {
+	} else 
 		return ret;
-	} 
-	*/
 
 
 	if (fd == STDIN_FILENO) {
