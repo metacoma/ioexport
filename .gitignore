@@ -1,0 +1,9 @@
+kernel-module/.*
+*.ko
+*.ko.c
+*.mod.c
+*.o
+*.cmd
+*.unsigned
+*.order
+*.symvers
