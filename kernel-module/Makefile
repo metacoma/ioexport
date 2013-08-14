@@ -2,6 +2,8 @@ obj-m += ioexport.o
 
 KBUILD_VERBOSE=1
 
+EXTRA_CFLAGS=-DXCHG=1
+
 all:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
