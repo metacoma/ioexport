@@ -1,4 +1,6 @@
 kernel-module/.*
+mod/.*
+*.swp
 *.ko
 *.ko.c
 *.mod.c

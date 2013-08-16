@@ -1,0 +1,1 @@
+cmd_/root/gits/ioexport/mod/ioexp.ko.unsigned := ld -r -m elf_x86_64 -T /usr/src/kernels/2.6.39-400.109.5.el6uek.x86_64/scripts/module-common.lds --build-id  -o /root/gits/ioexport/mod/ioexp.ko.unsigned /root/gits/ioexport/mod/ioexp.o /root/gits/ioexport/mod/ioexp.mod.o 
