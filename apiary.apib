@@ -1,0 +1,44 @@
+FORMAT: 1A
+HOST: http://diagnostic.api/
+
+# Diagnostic Api
+Diagnotic api designed for share information about openstack's installations
+
+
+# Group Notes
+Notes related resources of the **Notes API**
+
+## Openstack Collection [/openstack]
+### List all Openstack installations [GET]
++ Response 200 (application/json)
+
+        [{
+          "id": 0, "name": "customer0" 
+        }, {
+          "id": 1, "name": "customer1"
+        }]
+
+### Create a Openstack installation [POST]
++ Request (application/json)
+
+        { "name": "customer3" }
+
++ Response 201 (application/json)
+
+        { "id": 2, "name": "customer3" }
+
+## Openstack [/openstack/{id}]
+### A single openstack object with all available information          
+
++ Parameters
+    + id (required, number, `1`) ... Numeric `id` of the Openstack installation to perform action with. Has example value.
+
+### Retrieve a Openstack [GET]
++ Response 200 (application/json)
+
+    + Body
+
+            { "id": 2, "elements": ["hw"] }
+
+### Remove a Openstack [DELETE]
++ Response 204
